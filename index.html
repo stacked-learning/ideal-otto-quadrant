@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stacked Learning Otto Quadrant</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- KaTeX CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.js"></script>
+    
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+        .animate-slide-down { animation: slideDown 0.5s ease-out; }
+        .animate-slide-up { animation: slideUp 0.5s ease-out; }
+        .hidden { display: none !important; }
+        
+        * {
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-mode button { min-height: 120px !important; font-size: 1.5rem !important; }
+            .nav-mode button { min-height: 50px !important; font-size: 1rem !important; padding: 0.75rem 1.5rem !important; }
+        }
+        
+        body {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        h1, h2, h3, h4, h5, h6 { line-height: 1.2; }
+        button { cursor: pointer; user-select: none; }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <div class="min-h-screen bg-gray-50 p-4 lg:p-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-4">Stacked Learning Otto Quadrant</h1>
+                <div class="w-24 h-1 bg-orange-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div id="quadrant-container" class="transition-all duration-500 ease-out grid-mode">
+                <div id="temp-image-container" class="mb-6 flex justify-center">
+                    <img id="temp-image" src="./images/OttoCycleGIF_1763334006638.gif" alt="Quadrant visualization" class="w-full md:w-[85%] h-auto object-contain rounded-lg" />
+                </div>
+                
+                <div id="grid-view" class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5 mb-8 animate-fade-in">
+                    <button data-quadrant="compression" class="quadrant-btn min-h-[100px] md:min-h-[120px] rounded-2xl font-semibold text-2xl md:text-3xl transition-all duration-300 ease-out transform hover:scale-105 focus:outline-none focus:ring-4 hover:shadow-xl active:scale-95 bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-200">
+                        Compression
+                    </button>
+                    <button data-quadrant="heatAddition" class="quadrant-btn min-h-[100px] md:min-h-[120px] rounded-2xl font-semibold text-2xl md:text-3xl transition-all duration-300 ease-out transform hover:scale-105 focus:outline-none focus:ring-4 hover:shadow-xl active:scale-95 bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-200">
+                        Heat Addition
+                    </button>
+                    <button data-quadrant="expansion" class="quadrant-btn min-h-[100px] md:min-h-[120px] rounded-2xl font-semibold text-2xl md:text-3xl transition-all duration-300 ease-out transform hover:scale-105 focus:outline-none focus:ring-4 hover:shadow-xl active:scale-95 bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-200">
+                        Expansion
+                    </button>
+                    <button data-quadrant="heatRejection" class="quadrant-btn min-h-[100px] md:min-h-[120px] rounded-2xl font-semibold text-2xl md:text-3xl transition-all duration-300 ease-out transform hover:scale-105 focus:outline-none focus:ring-4 hover:shadow-xl active:scale-95 bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-200">
+                        Heat Rejection
+                    </button>
+                </div>
+
+                <div id="nav-view" class="hidden flex-wrap justify-center gap-4 mb-8 animate-slide-down">
+                    <button data-quadrant="compression" class="nav-btn px-8 py-4 rounded-full font-medium text-lg transition-all duration-300 ease-out transform hover:scale-105 focus:outline-none focus:ring-4 hover:shadow-lg bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-200">
+                        Compression
+                    </button>
+                    <button data-quadrant="heatAddition" class="nav-btn px-8 py-4 rounded-full font-medium text-lg transition-all duration-300 ease-out transform hover:scale-105 focus:outline-none focus:ring-4 hover:shadow-lg bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-200">
+                        Heat Addition
+                    </button>
+                    <button data-quadrant="expansion" class="nav-btn px-8 py-4 rounded-full font-medium text-lg transition-all duration-300 ease-out transform hover:scale-105 focus:outline-none focus:ring-4 hover:shadow-lg bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-200">
+                        Expansion
+                    </button>
+                    <button data-quadrant="heatRejection" class="nav-btn px-8 py-4 rounded-full font-medium text-lg transition-all duration-300 ease-out transform hover:scale-105 focus:outline-none focus:ring-4 hover:shadow-lg bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-200">
+                        Heat Rejection
+                    </button>
+                </div>
+
+                <div id="instruction-text" class="text-center text-gray-600 text-lg mb-8">
+                    Hover over each quadrant to explore, click to view details
+                </div>
+            </div>
+
+            <div id="content-area" class="hidden mb-8 animate-slide-up"></div>
+        </div>
+    </div>
+
+    <script>
+        const state = {
+            selectedQuadrant: null,
+            isDetailView: false,
+            hoveredQuadrant: null,
+            hoverTimeout: null,
+            selectedExpansionDiagram: 'schematic',
+            selectedHeatAdditionDiagram: 'schematic',
+            selectedCompressionDiagram: 'schematic',
+            selectedHeatRejectionDiagram: 'schematic'
+        };
+
+        const images = {
+            default: './images/OttoCycleGIF_1763334006638.gif',
+            compression: './images/image_1761866205165.png',
+            heatAddition: './images/image_1761866215174.png',
+            expansion: './images/image_1761866221138.png',
+            heatRejection: './images/image_1761866232493.png',
+            compressionTsPv: './images/image_1763289809877.png',
+            heatAdditionTsPv: './images/image_1763289816647.png',
+            expansionTsPv: './images/image_1763289820719.png',
+            heatRejectionTsPv: './images/image_1763289824278.png',
+            compressionSchematic: './images/image_1763289544062.png',
+            heatAdditionSchematic: './images/image_1763289549736.png',
+            expansionSchematic: './images/image_1763289556824.png',
+            heatRejectionSchematic: './images/image_1763289562104.png',
+            efficiencyGraph: './images/image_1762170081738.png',
+            tdcBdc: './images/image_1763266338789.png',
+            compressionRatio: './images/image_1763266978573.png',
+            cycleEfficiency: './images/image_1763267261030.png',
+            heatAdditionProcess: './images/image_1763268994587.png',
+            heatAdditionEfficiency: './images/image_1763269627652.png',
+            volumeChangeExpansion: './images/image_1763270332906.png',
+            powerProduced: './images/image_1763288377012.png'
+        };
+
+        const quadrantData = {
+            compression: {
+                title: 'Compression',
+                sections: [
+                    { sectionTitle: 'Compression Process', text: 'In the compression process, the volume inside the cylinder is compressed from the Bottom Dead Center (BDC), where the cycle has maximum volume, to the Top Dead Centre (TDC), where the volume is at a minimum. The compression ratio represents the ratio between the maximum and minimum volumes. In the Ideal Otto cycle, this process is assumed to occur isentropically - meaning no energy losses from friction, and that the process is reversible - as no heat is transferred to or from the gas.' },
+                    { sectionTitle: 'TDC vs BDC', text: 'Top Dead Centre (TDC) and Bottom Dead Centre are defined with respect to the crankshaft. When the piston is most extended (once the fluid is compressed), it reaches its highest position with respect to the crankshaft. Bottom Dead Centre (BDC) is the position where the volume is maximum, and the piston is closest to the crankshaft.', image: images.tdcBdc },
+                    { sectionTitle: 'Compression Ratio', text: '', image: images.compressionRatio, imageSize: '70%', imageCaption: 'The compression ratio is the ratio between the maximum and minimum cylinder volume throughout the cycle.', formula: 'r_c = V_{max}/ V_{min}' },
+                    { sectionTitle: 'Compression and Cycle Efficiency', text: 'The compression process determines the efficiency of the Otto Cycle. As can be seen below, for an ideal Otto Cycle, the efficiency depends on the compression ratio. This relationship of the efficiency and compression ratio applies to many other thermal cycles (eg Brayton Cycle).', formula: '\\eta_{th} = 1 - \\frac{1}{r_c^{k-1}}', formulaCaption: 'The thermal efficiency of a Otto Cycle increases as a function of the compression ratio, for a set heat capacity ratio. For engines operating on the Otto-Cycle, compression ratios generally range between 8:1 and 14:1', image: images.cycleEfficiency, imageCaption: 'The thermal efficiency is a function of the Compression Ratio. However, the precise relation also depends on the specific heat ratio (k) value, which is often assumed constant.' }
+                ]
+            },
+            heatAddition: {
+                title: 'Heat Addition',
+                sections: [
+                    { sectionTitle: 'Heat Addition Process', text: 'The Ideal Otto Cycle represents the combustion process through a simple isochoric heat addition - meaning the volume stays constant. This is assumed to occur instantaneously, which differs from reality, where the ignition phase occurs over a short period of time. Additionally, any post-combustion chemistry is ignored in this cycle.', image: images.heatAdditionProcess, imageCaption: 'The addition of heat in the Otto Cycle is solely represented as a heat transfer. Here the prescence of the spark plug is effectively ignored.', formula: 'q_H = c_v(T_3-T_2)', formulaDescription: '\\text{where } q_H = \\text{Heat Added, } c_v = \\text{Specific Heat Capacity}' },
+                    { sectionTitle: 'Spark Ignition Process', text: 'Heat addition occurs once the cylinder volume is compressed to its minimum volume. For real engines, this process doesn\'t occur until a spark plug generates a spark in the cylinder, initiating combustion - hence why Otto Engines are often called "Spark Ignition Engines". When the piston is around top-dead center, it is easiest to combust the fuel, as the pressure and temperatures at this stage are the highest.' },
+                    { sectionTitle: 'Spark vs Compression Ignition', text: 'Otto Cycle engines use spark ignition, where a spark plug ignites the fuel-air mixture. This contrasts with compression ignition (used in Diesel engines), where the fuel auto-ignites due to high compression temperatures without requiring a spark plug.' },
+                    { sectionTitle: 'Heat Addition and Efficiency', text: 'From the thermal efficiency relation for a Otto Cycle, efficiency increases with higher heat addition relative to the amount of heat rejected. This is also observed with the temperature across the cycle. If T₃ is increased to a larger amount compared to T₂, more heat will be added. Likewise, the smaller T₄ is relative to T₁, the less heat will be rejected.', formula: '\\eta_{th,\\text{Otto}} = 1 - \\frac{\\dot{q}_{out}}{\\dot{q}_{in}} = 1 - \\frac{T_4 - T_1}{T_3 - T_2}', formulaCaption: 'Above we can see the formulated relationship between the added to rejected energy, and the thermal efficiency.', image: images.heatAdditionEfficiency, imageCaption: 'The thermal efficiency of the Otto cycle depends on the ratio of heat added to heat rejected' }
+                ]
+            },
+            expansion: {
+                title: 'Expansion',
+                sections: [
+                    { sectionTitle: 'Expansion Process', text: 'Like compression, expansion is assumed to take place isentropically - where no energy is lost due to friction. Additionally, no heat is transferred to or from the gas, making it adiabatic. During this process, the high pressure fluid exerts a force on the piston head, and pushes it upwards.' },
+                    { sectionTitle: 'Volume Change During Expansion', text: 'The volume inside of the cylinder is represented through the compression ratio. However, unlike the compression stroke, here the process starts at the Top Dead Center (minimum volume), and expands to Bottom Dead Center (maximum). It is the high pressure and temperature gases following ignition which lead to expansion of the cylinder volume.', image: images.volumeChangeExpansion },
+                    { sectionTitle: 'Power Produced', text: 'The expansion process, also known as the Power Stroke, results in work being produced from the engine - through the gases displacing the piston. The total power produced by the engine will be the difference between the work input during compression, and the output work from expansion. This can be represented by the area enclosed in an Otto cycle\'s PV diagram.', image: images.powerProduced, imageCaption: 'PV diagram showing the enclosed area representing the net work output of the Otto Cycle.' }
+                ]
+            },
+            heatRejection: {
+                title: 'Heat Rejection',
+                sections: [
+                    { sectionTitle: 'Heat Rejection Process', text: 'Heat Rejection is modeled through an isochoric process, where the volume remains constant, like in the heat addition phase. Here, the piston remains stationary, and it is assumed the heat rejection and pressure drop occur instantaneously.' },
+                    { sectionTitle: 'Heat Sink', text: 'For the Otto Cycle, heat is removed to an idealized heat sink surrounding the control mass boundaries. For real engines, the heat sink is typically the surrounding air, or a cooling fluid.' },
+                    { sectionTitle: 'Heat Rejection and Efficiency', text: 'As seen in the heat addition process, increasing the heat input relative to heat rejection improves efficiency. This is evident in the relationship below, where a smaller post-expansion temperature compared to the exhaust temperature is more desirable for achieving higher efficiency.', formula: '\\eta_{th,\\text{Otto}} = 1 - \\frac{\\dot{q}_{out}}{\\dot{q}_{in}} = 1 - \\frac{T_3 - T_2}{T_4 - T_1}' }
+                ]
+            }
+        };
+
+        function renderLatex() {
+            if (typeof katex === 'undefined') {
+                setTimeout(renderLatex, 100);
+                return;
+            }
+            document.querySelectorAll('[data-latex]').forEach(el => {
+                const formula = el.getAttribute('data-latex');
+                const displayMode = el.hasAttribute('data-display');
+                try {
+                    katex.render(formula, el, { throwOnError: false, displayMode: displayMode });
+                } catch (e) {
+                    console.error('KaTeX error:', e);
+                }
+            });
+        }
+
+        function handleQuadrantHover(quadrant) {
+            if (state.hoverTimeout) {
+                clearTimeout(state.hoverTimeout);
+                state.hoverTimeout = null;
+            }
+            state.hoveredQuadrant = quadrant;
+            updateTempImage();
+        }
+
+        function handleQuadrantLeave() {
+            state.hoverTimeout = setTimeout(() => {
+                state.hoveredQuadrant = null;
+                updateTempImage();
+            }, 100);
+        }
+
+        function updateTempImage() {
+            const img = document.getElementById('temp-image');
+            if (!state.hoveredQuadrant) {
+                img.src = images.default;
+            } else {
+                img.src = images[state.hoveredQuadrant];
+            }
+        }
+
+        function handleQuadrantClick(quadrant) {
+            if (state.selectedQuadrant === quadrant && state.isDetailView) {
+                state.selectedQuadrant = null;
+                state.isDetailView = false;
+            } else {
+                state.selectedQuadrant = quadrant;
+                state.isDetailView = true;
+            }
+            updateView();
+        }
+
+        function updateView() {
+            const container = document.getElementById('quadrant-container');
+            const gridView = document.getElementById('grid-view');
+            const navView = document.getElementById('nav-view');
+            const tempImageContainer = document.getElementById('temp-image-container');
+            const contentArea = document.getElementById('content-area');
+            const instructionText = document.getElementById('instruction-text');
+
+            if (state.isDetailView) {
+                container.classList.remove('grid-mode');
+                container.classList.add('nav-mode');
+                gridView.classList.add('hidden');
+                navView.classList.remove('hidden');
+                navView.classList.add('flex');
+                tempImageContainer.classList.add('hidden');
+                contentArea.classList.remove('hidden');
+                
+                const quadrantName = state.selectedQuadrant === 'heatAddition' ? 'Heat Addition' : 
+                                    state.selectedQuadrant === 'heatRejection' ? 'Heat Rejection' :
+                                    state.selectedQuadrant.charAt(0).toUpperCase() + state.selectedQuadrant.slice(1);
+                instructionText.textContent = 'Click the ' + quadrantName + ' button again to return to the grid view';
+                
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    if (btn.getAttribute('data-quadrant') === state.selectedQuadrant) {
+                        btn.classList.add('bg-orange-700', 'ring-4', 'ring-orange-300', 'shadow-lg');
+                        btn.classList.remove('bg-orange-500');
+                    } else {
+                        btn.classList.remove('bg-orange-700', 'ring-4', 'ring-orange-300', 'shadow-lg');
+                        btn.classList.add('bg-orange-500');
+                    }
+                });
+                
+                renderContent();
+            } else {
+                container.classList.remove('nav-mode');
+                container.classList.add('grid-mode');
+                gridView.classList.remove('hidden');
+                navView.classList.add('hidden');
+                navView.classList.remove('flex');
+                tempImageContainer.classList.remove('hidden');
+                contentArea.classList.add('hidden');
+                instructionText.textContent = 'Hover over each quadrant to explore, click to view details';
+            }
+        }
+
+        function renderContent() {
+            const contentArea = document.getElementById('content-area');
+            const data = quadrantData[state.selectedQuadrant];
+            
+            let diagramHtml = '';
+            const diagState = state['selected' + state.selectedQuadrant.charAt(0).toUpperCase() + state.selectedQuadrant.slice(1) + 'Diagram'];
+            const isSchematic = diagState === 'schematic';
+            
+            const diagramImages = {
+                expansion: { schematic: images.expansionSchematic, tspv: images.expansionTsPv },
+                heatAddition: { schematic: images.heatAdditionSchematic, tspv: images.heatAdditionTsPv },
+                compression: { schematic: images.compressionSchematic, tspv: images.compressionTsPv },
+                heatRejection: { schematic: images.heatRejectionSchematic, tspv: images.heatRejectionTsPv }
+            };
+            
+            const captions = {
+                expansion: {
+                    schematic: 'Expansion transforms the high-pressure gas into mechanical work as the piston travels back toward maximum volume.',
+                    tspv: 'Expansion is an isentropic process where pressure and temperature fall while volume increases.'
+                },
+                heatAddition: {
+                    schematic: 'Heat addition occurs at constant volume, rapidly increasing pressure and temperature due to combustion.',
+                    tspv: 'Heat Addition is an isochoric process that increases temperature, pressure, and entropy.'
+                },
+                compression: {
+                    schematic: 'Compression decreases the cylinder volume from maximum to minimum, raising pressure and temperature through work input.',
+                    tspv: 'Compression is an isentropic process where the volume shrinks and both pressure and temperature rise.'
+                },
+                heatRejection: {
+                    schematic: 'Heat rejection removes energy at constant volume, returning the working fluid to a low-energy state.',
+                    tspv: 'Heat Rejection is an isochoric cooling process that drops temperature and resets the cycle conditions to that seen before compression.'
+                }
+            };
+            
+            if (diagramImages[state.selectedQuadrant]) {
+                diagramHtml = '<div class="mb-8 max-w-4xl mx-auto">' +
+                    '<div class="flex justify-center items-center mb-4">' +
+                    '<img src="' + (isSchematic ? diagramImages[state.selectedQuadrant].schematic : diagramImages[state.selectedQuadrant].tspv) + '" ' +
+                    'alt="' + (isSchematic ? 'Schematic' : 'TS and PV Diagram') + '" ' +
+                    'class="w-full md:w-3/4 h-auto object-contain rounded-lg mx-auto" />' +
+                    '</div>' +
+                    '<p class="text-gray-700 text-center text-lg leading-relaxed mb-4 px-4">' +
+                    (isSchematic ? captions[state.selectedQuadrant].schematic : captions[state.selectedQuadrant].tspv) +
+                    '</p>' +
+                    '<div class="text-gray-600 text-center text-base mb-4">' +
+                    '<p class="mb-1">' +
+                    '<span data-latex="T"></span> - Temperature&nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '<span data-latex="S"></span> - Entropy&nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '<span data-latex="P"></span> - Pressure&nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '<span data-latex="V"></span> - Volume' +
+                    '</p>' +
+                    '<p>' +
+                    '<span data-latex="q_{in}"></span> - Heat In&nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '<span data-latex="q_{out}"></span> - Heat Out' +
+                    '</p>' +
+                    '</div>' +
+                    '<div class="flex justify-center gap-4">' +
+                    '<button onclick="toggleDiagram(\'' + state.selectedQuadrant + '\', \'schematic\')" ' +
+                    'class="px-6 py-2 rounded-lg font-medium transition-all ' + (isSchematic ? 'bg-orange-500 text-white shadow-md' : 'bg-gray-200 text-gray-700 hover:bg-gray-300') + '">' +
+                    'Schematic' +
+                    '</button>' +
+                    '<button onclick="toggleDiagram(\'' + state.selectedQuadrant + '\', \'tspv\')" ' +
+                    'class="px-6 py-2 rounded-lg font-medium transition-all ' + (!isSchematic ? 'bg-orange-500 text-white shadow-md' : 'bg-gray-200 text-gray-700 hover:bg-gray-300') + '">' +
+                    'TS and PV Diagram' +
+                    '</button>' +
+                    '</div>' +
+                    '</div>';
+            }
+            
+            let sectionsHtml = '';
+            if (data.sections) {
+                const firstSection = data.sections[0];
+                sectionsHtml += renderSection(firstSection, 0);
+                sectionsHtml += renderCharacteristics();
+                data.sections.slice(1).forEach((section, idx) => {
+                    sectionsHtml += renderSection(section, idx + 1);
+                });
+            }
+            
+            contentArea.innerHTML = '<div class="text-center mb-6">' +
+                '<h2 class="text-3xl font-bold text-gray-800 mb-2">' + data.title + '</h2>' +
+                '<div class="w-16 h-1 bg-orange-500 mx-auto rounded-full"></div>' +
+                '</div>' +
+                diagramHtml +
+                '<div class="space-y-8 max-w-4xl mx-auto">' + sectionsHtml + '</div>';
+            
+            setTimeout(renderLatex, 10);
+        }
+
+        function renderSection(section, idx) {
+            let html = '<div class="text-left">';
+            html += '<h3 class="text-2xl font-semibold text-gray-800 mb-3">' + section.sectionTitle + '</h3>';
+            
+            if (state.selectedQuadrant === 'heatRejection' && idx === 0) {
+                html += '<p class="text-gray-700 text-lg leading-relaxed mb-4">' + section.text + '</p>';
+                html += '<div class="flex justify-center gap-6 my-6">' +
+                    '<div class="w-40 h-40 bg-blue-100 text-blue-700 rounded border-2 border-blue-300 flex flex-col items-center justify-center gap-2">' +
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>' +
+                    '<span class="font-semibold text-lg">Temperature</span>' +
+                    '</div>' +
+                    '<div class="w-40 h-40 bg-gray-100 text-gray-700 rounded border-2 border-gray-300 flex flex-col items-center justify-center gap-2">' +
+                    '<span class="font-bold text-3xl">=</span>' +
+                    '<span class="font-semibold text-lg">Pressure</span>' +
+                    '</div>' +
+                    '<div class="w-40 h-40 bg-blue-100 text-blue-700 rounded border-2 border-blue-300 flex flex-col items-center justify-center gap-2">' +
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>' +
+                    '<span class="font-semibold text-lg">Entropy</span>' +
+                    '</div>' +
+                    '<div class="w-40 h-40 bg-gray-100 text-gray-700 rounded border-2 border-gray-300 flex flex-col items-center justify-center gap-2">' +
+                    '<span class="font-bold text-3xl">=</span>' +
+                    '<span class="font-semibold text-lg">Volume</span>' +
+                    '</div>' +
+                    '</div>';
+            } else {
+                if (section.text) {
+                    html += '<p class="text-gray-700 text-lg leading-relaxed mb-4">' + section.text + '</p>';
+                }
+                
+                if (section.image) {
+                    const imageSize = section.imageSize || '60%';
+                    html += '<div class="my-6 flex flex-col items-center">' +
+                        '<img src="' + section.image + '" alt="Diagram" class="h-auto object-contain max-w-full mx-auto" style="width: ' + imageSize + '" />';
+                    if (section.imageCaption) {
+                        html += '<p class="text-center text-gray-600 text-sm italic mt-3 px-4 max-w-3xl">' + section.imageCaption + '</p>';
+                    }
+                    html += '</div>';
+                }
+                
+                if (section.formula) {
+                    html += '<div data-latex="' + section.formula + '" data-display class="my-4 text-center text-xl"></div>';
+                    if (section.formulaCaption) {
+                        html += '<p class="text-center text-gray-600 text-sm italic mt-3 px-4">' + section.formulaCaption + '</p>';
+                    }
+                    if (section.formulaDescription) {
+                        html += '<p class="text-center text-gray-600 text-sm mt-2 px-4"><span data-latex="' + section.formulaDescription + '"></span></p>';
+                    }
+                }
+            }
+            
+            html += '</div>';
+            return html;
+        }
+
+        function renderCharacteristics() {
+            const indicators = {
+                heatAddition: [
+                    { color: 'red', icon: 'up', label: 'Temperature' },
+                    { color: 'red', icon: 'up', label: 'Pressure' },
+                    { color: 'red', icon: 'up', label: 'Entropy' },
+                    { color: 'gray', icon: 'eq', label: 'Volume' }
+                ],
+                expansion: [
+                    { color: 'blue', icon: 'down', label: 'Temperature' },
+                    { color: 'blue', icon: 'down', label: 'Pressure' },
+                    { color: 'gray', icon: 'eq', label: 'Entropy' },
+                    { color: 'red', icon: 'up', label: 'Volume' }
+                ],
+                compression: [
+                    { color: 'red', icon: 'up', label: 'Temperature' },
+                    { color: 'red', icon: 'up', label: 'Pressure' },
+                    { color: 'gray', icon: 'eq', label: 'Entropy' },
+                    { color: 'blue', icon: 'down', label: 'Volume' }
+                ]
+            };
+            
+            if (!indicators[state.selectedQuadrant]) return '';
+            
+            const titles = {
+                heatAddition: 'Heat Addition Characteristics',
+                expansion: 'Expansion Characteristics',
+                compression: 'Compression Characteristics'
+            };
+            
+            let html = '<div class="text-left">' +
+                '<h4 class="text-xl font-semibold text-gray-700 mb-4">' + titles[state.selectedQuadrant] + '</h4>' +
+                '<div class="flex flex-wrap justify-center gap-6 my-6">';
+            
+            indicators[state.selectedQuadrant].forEach(ind => {
+                const bgColor = 'bg-' + ind.color + '-100';
+                const textColor = 'text-' + ind.color + '-700';
+                const borderColor = 'border-' + ind.color + '-300';
+                
+                html += '<div class="w-40 h-40 ' + bgColor + ' ' + textColor + ' rounded border-2 ' + borderColor + ' flex flex-col items-center justify-center gap-2">';
+                
+                if (ind.icon === 'up') {
+                    html += '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+                } else if (ind.icon === 'down') {
+                    html += '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>';
+                } else {
+                    html += '<span class="font-bold text-3xl">=</span>';
+                }
+                
+                html += '<span class="font-semibold text-lg">' + ind.label + '</span></div>';
+            });
+            
+            html += '</div></div>';
+            return html;
+        }
+
+        function toggleDiagram(quadrant, type) {
+            const key = 'selected' + quadrant.charAt(0).toUpperCase() + quadrant.slice(1) + 'Diagram';
+            state[key] = type;
+            renderContent();
+        }
+
+        function init() {
+            document.querySelectorAll('.quadrant-btn').forEach(btn => {
+                const quadrant = btn.getAttribute('data-quadrant');
+                btn.addEventListener('click', () => handleQuadrantClick(quadrant));
+                btn.addEventListener('mouseenter', () => handleQuadrantHover(quadrant));
+                btn.addEventListener('mouseleave', handleQuadrantLeave);
+            });
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                const quadrant = btn.getAttribute('data-quadrant');
+                btn.addEventListener('click', () => handleQuadrantClick(quadrant));
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            init();
+            renderLatex();
+        });
+    </script>
+</body>
+</html>
